@@ -35,7 +35,7 @@ class PickImageTransitionViewController: UIViewController {
     private func configureImages() {
         func loadImage(named: String) -> MTIImage {
             let imageUrl = Bundle.main.url(forResource: named, withExtension: "jpg")!
-            return MTIImage(contentsOf: imageUrl, options: [.SRGB: false])!.oriented(.downMirrored)
+            return MTIImage(__contentsOf: imageUrl, options: [.SRGB: false])!.oriented(.downMirrored)
         }
         fromImage = loadImage(named: "1")
         toImage = loadImage(named: "2")

@@ -28,7 +28,7 @@ public class MTVideoTransitionRenderer: NSObject {
         
         let foregroundImage = MTIImage(cvPixelBuffer: foregroundPixelBuffer, alphaType: .alphaIsOne)
         let backgroundImage = MTIImage(cvPixelBuffer: backgroundPixelBuffer, alphaType: .alphaIsOne)
-        
+
         transition.inputImage = foregroundImage.oriented(.downMirrored)
         transition.destImage = backgroundImage.oriented(.downMirrored)
         transition.progress = tween

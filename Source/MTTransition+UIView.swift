@@ -52,8 +52,8 @@ extension MTTransition {
             let endCG = snapshotEnd?.cgImage else {
                 completion?(false); return;
         }
-        let imageA = MTIImage(cgImage: startCG, isOpaque: true).oriented(.downMirrored)
-        let imageB = MTIImage(cgImage: endCG, isOpaque: true).oriented(.downMirrored)
+        let imageA = MTIImage(__cgImage: startCG, isOpaque: true).oriented(.downMirrored)
+        let imageB = MTIImage(__cgImage: endCG, isOpaque: true).oriented(.downMirrored)
         
         // Remove actual layer content while animating
         originalLayers.forEach { $0.removeFromSuperlayer() }

@@ -8,38 +8,38 @@
 import Foundation
 import AVFoundation
 
-class MTVideoCompositionInstruction: NSObject, AVVideoCompositionInstructionProtocol {
+public class MTVideoCompositionInstruction: NSObject, AVVideoCompositionInstructionProtocol {
     
     /// ID used to identify the foreground frame.
-    var foregroundTrackID: CMPersistentTrackID = kCMPersistentTrackID_Invalid
+    public var foregroundTrackID: CMPersistentTrackID = kCMPersistentTrackID_Invalid
     
     /// ID used to identify the background frame.
-    var backgroundTrackID: CMPersistentTrackID = kCMPersistentTrackID_Invalid
+    public var backgroundTrackID: CMPersistentTrackID = kCMPersistentTrackID_Invalid
     
     /// Effect applied to video transition
-    var effect: MTTransition.Effect = .angular
+    public var effect: MTTransition.Effect = .angular
     
-    var timeRange: CMTimeRange {
+    public var timeRange: CMTimeRange {
         get { return self.overrideTimeRange }
         set { self.overrideTimeRange = newValue }
     }
     
-    var enablePostProcessing: Bool {
+    public var enablePostProcessing: Bool {
         get { return self.overrideEnablePostProcessing }
         set { self.overrideEnablePostProcessing = newValue }
     }
     
-    var containsTweening: Bool {
+    public var containsTweening: Bool {
         get { return self.overrideContainsTweening }
         set { self.overrideContainsTweening = newValue }
     }
     
-    var requiredSourceTrackIDs: [NSValue]? {
+    public var requiredSourceTrackIDs: [NSValue]? {
         get { return self.overrideRequiredSourceTrackIDs }
         set { self.overrideRequiredSourceTrackIDs = newValue }
     }
     
-    var passthroughTrackID: CMPersistentTrackID {
+    public var passthroughTrackID: CMPersistentTrackID {
         get { return self.overridePassthroughTrackID }
         set { self.overridePassthroughTrackID = newValue }
     }
@@ -59,7 +59,7 @@ class MTVideoCompositionInstruction: NSObject, AVVideoCompositionInstructionProt
     /// Track ID of the source frame when passthrough is in effect.
     private var overridePassthroughTrackID: CMPersistentTrackID = 0
     
-    init(thePassthroughTrackID: CMPersistentTrackID, forTimeRange theTimeRange: CMTimeRange) {
+    public init(thePassthroughTrackID: CMPersistentTrackID, forTimeRange theTimeRange: CMTimeRange) {
         super.init()
         passthroughTrackID = thePassthroughTrackID
         timeRange = theTimeRange
@@ -69,7 +69,7 @@ class MTVideoCompositionInstruction: NSObject, AVVideoCompositionInstructionProt
         enablePostProcessing = false
     }
     
-    init(theSourceTrackIDs: [NSValue], forTimeRange theTimeRange: CMTimeRange) {
+    public init(theSourceTrackIDs: [NSValue], forTimeRange theTimeRange: CMTimeRange) {
         super.init()
 
         requiredSourceTrackIDs = theSourceTrackIDs

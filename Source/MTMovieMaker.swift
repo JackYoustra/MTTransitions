@@ -77,7 +77,7 @@ public class MTMovieMaker: NSObject {
         
         
         let inputImages = images.map {
-            return MTIImage(cgImage: $0.cgImage!, options: [.SRGB: false]).oriented(.downMirrored)
+            return MTIImage.init(__cgImage: $0.cgImage!, options: [.SRGB: false]).oriented(.downMirrored)
         }
         try createVideo(with: inputImages,
                         effects: effects,
@@ -116,7 +116,7 @@ public class MTMovieMaker: NSObject {
         writer = try AVAssetWriter(outputURL: outputURL, fileType: .mp4)
         let outputSize = images.first!.size
         let videoSettings: [String: Any] = [
-            AVVideoCodecKey: AVVideoCodecH264,
+            AVVideoCodecKey: AVVideoCodecType.h264,
             AVVideoWidthKey: outputSize.width,
             AVVideoHeightKey: outputSize.height
         ]

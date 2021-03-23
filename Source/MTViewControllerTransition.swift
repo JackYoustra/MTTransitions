@@ -58,7 +58,7 @@ public final class MTViewControllerTransition: NSObject, UIViewControllerAnimate
     
     private func mtiImage(from cgImage: CGImage?) -> MTIImage? {
         guard let image = cgImage else { return nil }
-        return MTIImage(cgImage: image, options: [.SRGB: false], isOpaque: false).oriented(.downMirrored).unpremultiplyingAlpha()
+        return MTIImage(__cgImage: image, options: [.SRGB: false], isOpaque: false).oriented(.downMirrored).unpremultiplyingAlpha()
     }
     
     public init(transition: MTTransition, duration: TimeInterval = 0.8) {

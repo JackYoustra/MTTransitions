@@ -49,7 +49,7 @@ class ImageTransitionSampleViewController: UIViewController {
     private func configureSampleImages() {
         for i in 1...9 {
             if let imageUrl = Bundle.main.url(forResource: String(i), withExtension: "jpg") {
-                let image = MTIImage(contentsOf: imageUrl, options: [.SRGB: false])!.oriented(.downMirrored)
+                let image = MTIImage(__contentsOf: imageUrl, options: [.SRGB: false])!.oriented(.downMirrored)
                 sampleImages.append(image)
             }
         }

@@ -7,14 +7,14 @@
 
 import AVFoundation
 
-class MTVideoCompositor: NSObject, AVVideoCompositing {
+public class MTVideoCompositor: NSObject, AVVideoCompositing {
     
     /// Returns the pixel buffer attributes required by the video compositor for new buffers created for processing.
-    var requiredPixelBufferAttributesForRenderContext: [String : Any] =
+    public var requiredPixelBufferAttributesForRenderContext: [String : Any] =
     [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
     
     /// The pixel buffer attributes of pixel buffers that will be vended by the adaptor’s CVPixelBufferPool.
-    var sourcePixelBufferAttributes: [String : Any]? =
+    public var sourcePixelBufferAttributes: [String : Any]? =
     [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
     
     /// Set if all pending requests have been cancelled.
@@ -50,7 +50,7 @@ class MTVideoCompositor: NSObject, AVVideoCompositing {
         super.init()
     }
     
-    func renderContextChanged(_ newRenderContext: AVVideoCompositionRenderContext) {
+    public func renderContextChanged(_ newRenderContext: AVVideoCompositionRenderContext) {
         renderContextQueue.sync { renderContext = newRenderContext }
         renderContextDidChange = true
     }
@@ -59,7 +59,7 @@ class MTVideoCompositor: NSObject, AVVideoCompositing {
         case newRenderedPixelBufferForRequestFailure
     }
     
-    func startRequest(_ asyncVideoCompositionRequest: AVAsynchronousVideoCompositionRequest) {
+    public func startRequest(_ asyncVideoCompositionRequest: AVAsynchronousVideoCompositionRequest) {
         autoreleasepool {
             renderingQueue.async {
                 // Check if all pending requests have been cancelled.
@@ -84,7 +84,7 @@ class MTVideoCompositor: NSObject, AVVideoCompositing {
         }
     }
     
-    func cancelAllPendingVideoCompositionRequests() {
+    public func cancelAllPendingVideoCompositionRequests() {
         /*
          Pending requests will call finishCancelledRequest, those already rendering will call
          finishWithComposedVideoFrame.
