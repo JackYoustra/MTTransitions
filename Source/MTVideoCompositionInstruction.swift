@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFoundation
+import MetalPetal
 
 public class MTVideoCompositionInstruction: NSObject, AVVideoCompositionInstructionProtocol {
     
@@ -15,6 +16,10 @@ public class MTVideoCompositionInstruction: NSObject, AVVideoCompositionInstruct
     
     /// ID used to identify the background frame.
     public var backgroundTrackID: CMPersistentTrackID = kCMPersistentTrackID_Invalid
+
+    public var foregroundLayerer: ((MTIImage) -> (MTIImage))? = nil
+
+    public var backgroundLayerer: ((MTIImage) ->(MTIImage))? = nil
     
     /// Effect applied to video transition
     public var effect: MTTransition.Effect = .angular

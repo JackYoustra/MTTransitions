@@ -129,7 +129,9 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
 
         renderer.renderPixelBuffer(dstPixels,
                                    usingForegroundSourceBuffer:foregroundSourceBuffer,
+                                   withTransform: currentInstruction.foregroundLayerer,
                                    andBackgroundSourceBuffer:backgroundSourceBuffer,
+                                   withTransform: currentInstruction.backgroundLayerer,
                                    forTweenFactor:Float(tweenFactor))
         return dstPixels
     }

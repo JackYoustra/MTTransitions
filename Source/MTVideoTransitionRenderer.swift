@@ -23,14 +23,16 @@ public class MTVideoTransitionRenderer: NSObject {
     
     public func renderPixelBuffer(_ destinationPixelBuffer: CVPixelBuffer,
                                   usingForegroundSourceBuffer foregroundPixelBuffer: CVPixelBuffer,
+                                  withTransform foregroundTransform: ((MTIImage) -> (MTIImage))?,
                                   andBackgroundSourceBuffer backgroundPixelBuffer: CVPixelBuffer,
+                                  withTransform backgroundTransform: ((MTIImage) -> (MTIImage))?,
                                   forTweenFactor tween: Float) {
         
         let foregroundImage = MTIImage(cvPixelBuffer: foregroundPixelBuffer, alphaType: .alphaIsOne)
         let backgroundImage = MTIImage(cvPixelBuffer: backgroundPixelBuffer, alphaType: .alphaIsOne)
 
-        transition.inputImage = foregroundImage.oriented(.downMirrored)
-        transition.destImage = backgroundImage.oriented(.downMirrored)
+        transition.inputImage = foregroundTransform?(foregroundImage) ?? foregroundImage.oriented(.downMirrored)
+        transition.destImage = backgroundTransform?(backgroundImage) ?? backgroundImage.oriented(.downMirrored)
         transition.progress = tween
 
         if let output = transition.outputImage {
