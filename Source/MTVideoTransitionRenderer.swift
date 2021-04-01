@@ -20,6 +20,17 @@ public class MTVideoTransitionRenderer: NSObject {
         self.transition = effect.transition
         super.init()
     }
+
+    public func renderPixelBuffer(_ destinationPixelBuffer: CVPixelBuffer,
+                                  usingForegroundSourceBuffer foregroundPixelBuffer: CVPixelBuffer,
+                                  withTransform foregroundTransform: ((MTIImage) -> (MTIImage))?) {
+
+        let foregroundImage = MTIImage(cvPixelBuffer: foregroundPixelBuffer, alphaType: .alphaIsOne)
+
+        let transformedImage = foregroundTransform?(foregroundImage) ?? foregroundImage.oriented(.downMirrored)
+
+        try? MTTransition.context?.render(transformedImage, to: destinationPixelBuffer)
+    }
     
     public func renderPixelBuffer(_ destinationPixelBuffer: CVPixelBuffer,
                                   usingForegroundSourceBuffer foregroundPixelBuffer: CVPixelBuffer,

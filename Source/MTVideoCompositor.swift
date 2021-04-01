@@ -69,7 +69,9 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
                     guard let currentInstruction = asyncVideoCompositionRequest.videoCompositionInstruction as? MTVideoCompositionInstruction else {
                         return
                     }
-                    if self.renderer.effect != currentInstruction.effect {
+                    // Change effect if current instruction is non-passthrough
+                    // and has a different effect
+                    if currentInstruction.requiredSourceTrackIDs?.count == 2, self.renderer.effect != currentInstruction.effect {
                         self.renderer = MTVideoTransitionRenderer(effect: currentInstruction.effect)
                     }
                     
@@ -114,26 +116,43 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
             return nil
         }
 
-        // Source pixel buffers are used as inputs while rendering the transition.
         guard let foregroundSourceBuffer = request.sourceFrame(byTrackID: currentInstruction.foregroundTrackID) else {
             return nil
         }
-        guard let backgroundSourceBuffer = request.sourceFrame(byTrackID: currentInstruction.backgroundTrackID) else {
-            return nil
+
+        // Check if it's a passthrough-plus-transform or a transition
+        if let IDs = currentInstruction.requiredSourceTrackIDs,
+            IDs.count == 1 {
+            // passthrough
+            // Destination pixel buffer into which we render the output.
+            guard let dstPixels = renderContext?.newPixelBuffer() else { return nil }
+
+            if renderContextDidChange { renderContextDidChange = false }
+
+            renderer.renderPixelBuffer(dstPixels,
+                                       usingForegroundSourceBuffer:foregroundSourceBuffer,
+                                       withTransform: currentInstruction.foregroundLayerer)
+            return dstPixels
+        } else {
+            // blend
+            // Source pixel buffers are used as inputs while rendering the transition.
+            guard let backgroundSourceBuffer = request.sourceFrame(byTrackID: currentInstruction.backgroundTrackID) else {
+                return nil
+            }
+
+            // Destination pixel buffer into which we render the output.
+            guard let dstPixels = renderContext?.newPixelBuffer() else { return nil }
+
+            if renderContextDidChange { renderContextDidChange = false }
+
+            renderer.renderPixelBuffer(dstPixels,
+                                       usingForegroundSourceBuffer:foregroundSourceBuffer,
+                                       withTransform: currentInstruction.foregroundLayerer,
+                                       andBackgroundSourceBuffer:backgroundSourceBuffer,
+                                       withTransform: currentInstruction.backgroundLayerer,
+                                       forTweenFactor:Float(tweenFactor))
+            return dstPixels
         }
-
-        // Destination pixel buffer into which we render the output.
-        guard let dstPixels = renderContext?.newPixelBuffer() else { return nil }
-
-        if renderContextDidChange { renderContextDidChange = false }
-
-        renderer.renderPixelBuffer(dstPixels,
-                                   usingForegroundSourceBuffer:foregroundSourceBuffer,
-                                   withTransform: currentInstruction.foregroundLayerer,
-                                   andBackgroundSourceBuffer:backgroundSourceBuffer,
-                                   withTransform: currentInstruction.backgroundLayerer,
-                                   forTweenFactor:Float(tweenFactor))
-        return dstPixels
     }
 }
 

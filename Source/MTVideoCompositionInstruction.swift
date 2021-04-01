@@ -73,7 +73,11 @@ public class MTVideoCompositionInstruction: NSObject, AVVideoCompositionInstruct
         containsTweening = false
         enablePostProcessing = false
     }
-    
+
+    /// Initialize the instruction with one (or two, in the case of a transition) tracks
+    /// - Parameters:
+    ///   - theSourceTrackIDs: The IDs of the source tracks
+    ///   - theTimeRange: The time range for which the instruction should be active
     public init(theSourceTrackIDs: [NSValue], forTimeRange theTimeRange: CMTimeRange) {
         super.init()
 
