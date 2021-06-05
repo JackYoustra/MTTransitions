@@ -33,17 +33,33 @@ public class MTVideoTransitionRenderer: NSObject {
     }
     
     public func renderPixelBuffer(_ destinationPixelBuffer: CVPixelBuffer,
-                                  usingForegroundSourceBuffer foregroundPixelBuffer: CVPixelBuffer,
+                                  usingForegroundSourceBuffer foregroundPixelBuffer: CVPixelBuffer?,
                                   withTransform foregroundTransform: ((MTIImage) -> (MTIImage))?,
-                                  andBackgroundSourceBuffer backgroundPixelBuffer: CVPixelBuffer,
+                                  andBackgroundSourceBuffer backgroundPixelBuffer: CVPixelBuffer?,
                                   withTransform backgroundTransform: ((MTIImage) -> (MTIImage))?,
                                   forTweenFactor tween: Float) {
-        
-        let foregroundImage = MTIImage(cvPixelBuffer: foregroundPixelBuffer, alphaType: .alphaIsOne)
-        let backgroundImage = MTIImage(cvPixelBuffer: backgroundPixelBuffer, alphaType: .alphaIsOne)
 
-        transition.inputImage = foregroundTransform?(foregroundImage) ?? foregroundImage
-        transition.destImage = backgroundTransform?(backgroundImage) ?? backgroundImage
+        if let fpb = foregroundPixelBuffer {
+            let foregroundImage = MTIImage(cvPixelBuffer: fpb, alphaType: .alphaIsOne)
+            transition.inputImage = foregroundTransform?(foregroundImage) ?? foregroundImage
+        } else {
+            // background is an image
+            transition.inputImage = nil
+        }
+
+        if let bpb = backgroundPixelBuffer {
+            let backgroundImage = MTIImage(cvPixelBuffer: bpb, alphaType: .alphaIsOne)
+            transition.destImage = backgroundTransform?(backgroundImage) ?? backgroundImage
+        } else {
+            transition.destImage = nil
+        }
+
+        if transition.inputImage == nil, let size = transition.destImage?.size {
+            transition.inputImage = MTIImage(color: .black, sRGB: true, size: size)
+        } else if transition.destImage == nil, let size = transition.inputImage?.size {
+            transition.destImage = MTIImage(color: .black, sRGB: true, size: size)
+        }
+
         transition.progress = tween
 
         if let output = transition.outputImage {

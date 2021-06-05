@@ -113,19 +113,26 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
         let tweenFactor = factorForTimeInRange(request.compositionTime, range: request.videoCompositionInstruction.timeRange)
 
         guard let currentInstruction = request.videoCompositionInstruction as? MTVideoCompositionInstruction else {
+            print("No current instruction")
             return nil
         }
 
-        guard let foregroundSourceBuffer = request.sourceFrame(byTrackID: currentInstruction.foregroundTrackID) else {
-            return nil
-        }
+        let foregroundSourceBufferMaybe = request.sourceFrame(byTrackID: currentInstruction.foregroundTrackID)
 
         // Check if it's a passthrough-plus-transform or a transition
         if let IDs = currentInstruction.requiredSourceTrackIDs,
             IDs.count == 1 {
             // passthrough
             // Destination pixel buffer into which we render the output.
-            guard let dstPixels = renderContext?.newPixelBuffer() else { return nil }
+            guard let foregroundSourceBuffer = foregroundSourceBufferMaybe else {
+                print("No foreground pixel buffer")
+                return nil
+            }
+
+            guard let dstPixels = renderContext?.newPixelBuffer() else {
+                print("Pixel allocation failure (passthrough)")
+                return nil
+            }
 
             if renderContextDidChange { renderContextDidChange = false }
 
@@ -136,17 +143,24 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
         } else {
             // blend
             // Source pixel buffers are used as inputs while rendering the transition.
-            guard let backgroundSourceBuffer = request.sourceFrame(byTrackID: currentInstruction.backgroundTrackID) else {
+            let backgroundSourceBuffer = request.sourceFrame(byTrackID: currentInstruction.backgroundTrackID)
+
+            if foregroundSourceBufferMaybe == nil && backgroundSourceBuffer == nil {
+                // Wouldn't end up rendering anything, cancel
+                print("No foreground or background source buffer")
                 return nil
             }
 
             // Destination pixel buffer into which we render the output.
-            guard let dstPixels = renderContext?.newPixelBuffer() else { return nil }
+            guard let dstPixels = renderContext?.newPixelBuffer() else {
+                print("Pixel allocation failure (blend)")
+                return nil
+            }
 
             if renderContextDidChange { renderContextDidChange = false }
 
             renderer.renderPixelBuffer(dstPixels,
-                                       usingForegroundSourceBuffer:foregroundSourceBuffer,
+                                       usingForegroundSourceBuffer:foregroundSourceBufferMaybe,
                                        withTransform: currentInstruction.foregroundLayerer,
                                        andBackgroundSourceBuffer:backgroundSourceBuffer,
                                        withTransform: currentInstruction.backgroundLayerer,
