@@ -164,6 +164,7 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
                                        withTransform: currentInstruction.foregroundLayerer,
                                        andBackgroundSourceBuffer:backgroundSourceBuffer,
                                        withTransform: currentInstruction.backgroundLayerer,
+                                       andPostTransform: currentInstruction.postTransitionTransform,
                                        forTweenFactor:Float(tweenFactor))
             return dstPixels
         }

@@ -37,6 +37,7 @@ public class MTVideoTransitionRenderer: NSObject {
                                   withTransform foregroundTransform: ((MTIImage) -> (MTIImage))?,
                                   andBackgroundSourceBuffer backgroundPixelBuffer: CVPixelBuffer?,
                                   withTransform backgroundTransform: ((MTIImage) -> (MTIImage))?,
+                                  andPostTransform postTransform: ((MTIImage) -> (MTIImage))?,
                                   forTweenFactor tween: Float) {
 
         if let fpb = foregroundPixelBuffer {
@@ -62,7 +63,8 @@ public class MTVideoTransitionRenderer: NSObject {
 
         transition.progress = tween
 
-        if let output = transition.outputImage {
+        if var output = transition.outputImage {
+            output = postTransform?(output) ?? output
             try? MTTransition.context?.render(output, to: destinationPixelBuffer)
         }
     }
