@@ -40,6 +40,11 @@ public class MTVideoTransitionRenderer: NSObject {
                                   andPostTransform postTransform: ((MTIImage) -> (MTIImage))?,
                                   forTweenFactor tween: Float) {
 
+        // Cleanup unused images upon complete
+        defer {
+            transition.inputImage = nil
+            transition.destImage = nil
+        }
         if let fpb = foregroundPixelBuffer {
             let foregroundImage = MTIImage(cvPixelBuffer: fpb, alphaType: .alphaIsOne)
             transition.inputImage = foregroundTransform?(foregroundImage) ?? foregroundImage

@@ -62,25 +62,27 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
     public func startRequest(_ asyncVideoCompositionRequest: AVAsynchronousVideoCompositionRequest) {
         autoreleasepool {
             renderingQueue.async {
-                // Check if all pending requests have been cancelled.
-                if self.shouldCancelAllRequests {
-                    asyncVideoCompositionRequest.finishCancelledRequest()
-                } else {
-                    guard let currentInstruction = asyncVideoCompositionRequest.videoCompositionInstruction as? MTVideoCompositionInstruction else {
-                        return
+                autoreleasepool {
+                    // Check if all pending requests have been cancelled.
+                    if self.shouldCancelAllRequests {
+                        asyncVideoCompositionRequest.finishCancelledRequest()
+                    } else {
+                        guard let currentInstruction = asyncVideoCompositionRequest.videoCompositionInstruction as? MTVideoCompositionInstruction else {
+                            return
+                        }
+                        // Change effect if current instruction is non-passthrough
+                        // and has a different effect
+                        if currentInstruction.requiredSourceTrackIDs?.count == 2, self.renderer.effect != currentInstruction.effect {
+                            self.renderer = MTVideoTransitionRenderer(effect: currentInstruction.effect)
+                        }
+
+                        guard let resultPixels = self.newRenderedPixelBufferForRequest(asyncVideoCompositionRequest) else {
+                            asyncVideoCompositionRequest.finish(with: PixelBufferRequestError.newRenderedPixelBufferForRequestFailure)
+                            return
+                        }
+                        // The resulting pixelbuffer from Metal renderer is passed along to the request.
+                        asyncVideoCompositionRequest.finish(withComposedVideoFrame: resultPixels)
                     }
-                    // Change effect if current instruction is non-passthrough
-                    // and has a different effect
-                    if currentInstruction.requiredSourceTrackIDs?.count == 2, self.renderer.effect != currentInstruction.effect {
-                        self.renderer = MTVideoTransitionRenderer(effect: currentInstruction.effect)
-                    }
-                    
-                    guard let resultPixels = self.newRenderedPixelBufferForRequest(asyncVideoCompositionRequest) else {
-                        asyncVideoCompositionRequest.finish(with: PixelBufferRequestError.newRenderedPixelBufferForRequestFailure)
-                        return
-                    }
-                    // The resulting pixelbuffer from Metal renderer is passed along to the request.
-                    asyncVideoCompositionRequest.finish(withComposedVideoFrame: resultPixels)
                 }
             }
         }
