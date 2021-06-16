@@ -18,14 +18,17 @@ public class MTVideoCompositionInstruction: NSObject, AVVideoCompositionInstruct
     public var backgroundTrackID: CMPersistentTrackID = kCMPersistentTrackID_Invalid
 
     /// A transformation applied to the foreground of a given transition or, if no transition exists, the single track image
-    public var foregroundLayerer: ((MTIImage) -> (MTIImage))? = nil
+    public var foregroundLayerer: ((MTIImage, Float) -> (MTIImage))? = nil
 
     /// A transformation applied to the background of a given transition
-    public var backgroundLayerer: ((MTIImage) ->(MTIImage))? = nil
+    public var backgroundLayerer: ((MTIImage, Float) ->(MTIImage))? = nil
 
     /// A transformation applied after rendering a transition frame
     public var postTransitionTransform: ((MTIImage) -> (MTIImage))? = nil
-    
+
+    /// Ignore the actual video frames in a foreground-only instruction
+    public var ignoreInput: Bool = false
+
     /// Effect applied to video transition
     public var effect: MTTransition.Effect = .angular
     

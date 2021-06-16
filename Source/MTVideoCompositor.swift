@@ -123,24 +123,37 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
 
         // Check if it's a passthrough-plus-transform or a transition
         if let IDs = currentInstruction.requiredSourceTrackIDs,
-            IDs.count == 1 {
+           IDs.count == 1 {
             // passthrough
-            // Destination pixel buffer into which we render the output.
-            guard let foregroundSourceBuffer = foregroundSourceBufferMaybe else {
-                print("No foreground pixel buffer")
-                return nil
-            }
 
-            guard let dstPixels = renderContext?.newPixelBuffer() else {
-                print("Pixel allocation failure (passthrough)")
-                return nil
+            let foregroundSourceBuffer, dstPixels: CVPixelBuffer
+            if currentInstruction.ignoreInput {
+                guard let destination = renderContext?.newPixelBuffer() else {
+                    print("Pixel allocation failure (passthrough)")
+                    return nil
+                }
+                dstPixels = destination
+                foregroundSourceBuffer = dstPixels
+            } else {
+                // Destination pixel buffer into which we render the output.
+                guard let foregroundBuffer = foregroundSourceBufferMaybe else {
+                    print("No foreground pixel buffer (track \(currentInstruction.foregroundTrackID))")
+                    return nil
+                }
+                foregroundSourceBuffer = foregroundBuffer
+
+                guard let destination = renderContext?.newPixelBuffer() else {
+                    print("Pixel allocation failure (passthrough)")
+                    return nil
+                }
+                dstPixels = destination
             }
 
             if renderContextDidChange { renderContextDidChange = false }
 
             renderer.renderPixelBuffer(dstPixels,
                                        usingForegroundSourceBuffer:foregroundSourceBuffer,
-                                       withTransform: currentInstruction.foregroundLayerer)
+                                       withTransform: currentInstruction.foregroundLayerer, forTweenFactor: Float(tweenFactor))
             return dstPixels
         } else {
             // blend
