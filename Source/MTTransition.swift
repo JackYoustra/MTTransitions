@@ -16,7 +16,11 @@ public typealias MTTransitionCompletion = (_ finished: Bool) -> Void
 
 public class MTTransition: NSObject, MTIUnaryFilter {
     
-    public static let context = try? MTIContext(device: MTLCreateSystemDefaultDevice()!)
+    public static let context = { () -> MTIContext? in
+        let options = MTIContextOptions()
+        options.enablesRenderGraphOptimization = true
+        return try? MTIContext(device: MTLCreateSystemDefaultDevice()!, options: options)
+    }()
     
     public override init() { }
 
