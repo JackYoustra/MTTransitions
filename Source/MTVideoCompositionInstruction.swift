@@ -26,6 +26,13 @@ public class MTVideoCompositionInstruction: NSObject, AVVideoCompositionInstruct
     /// A transformation applied after rendering a transition frame
     public var postTransitionTransform: ((MTIImage) -> (MTIImage))? = nil
 
+    /// There's a bug on AVPlayerItem that has seeking occasionally yield the wrong time.
+    /// This can be mitigated by returning a cached pixel buffer to use on dead frames during these times (usually the beginning of a transition track)
+    public var vendBufferForSkippedStep: ((CMTime) -> (CVPixelBuffer?))? = nil
+
+    /// Helper updater for the vendBufferForSkippedStep function
+    public var newBufferRendered: ((CVPixelBuffer) -> ())? = nil
+
     /// Ignore the actual video frames in a foreground-only instruction
     public var ignoreInput: Bool = false
 

@@ -119,6 +119,11 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
             return nil
         }
 
+        // Check if we should run a mitigation algorithm
+        if let skipBuffer = currentInstruction.vendBufferForSkippedStep?(request.compositionTime) {
+            return skipBuffer
+        }
+
         let foregroundSourceBufferMaybe = request.sourceFrame(byTrackID: currentInstruction.foregroundTrackID)
 
         // Check if it's a passthrough-plus-transform or a transition
@@ -154,6 +159,7 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
             renderer.renderPixelBuffer(dstPixels,
                                        usingForegroundSourceBuffer:foregroundSourceBuffer,
                                        withTransform: currentInstruction.foregroundLayerer, forTweenFactor: Float(tweenFactor))
+            currentInstruction.newBufferRendered?(dstPixels)
             return dstPixels
         } else {
             // blend
@@ -181,6 +187,7 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
                                        withTransform: currentInstruction.backgroundLayerer,
                                        andPostTransform: currentInstruction.postTransitionTransform,
                                        forTweenFactor:Float(tweenFactor))
+            currentInstruction.newBufferRendered?(dstPixels)
             return dstPixels
         }
     }
