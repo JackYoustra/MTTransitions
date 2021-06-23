@@ -14,7 +14,7 @@ public typealias MTTransitionUpdater = (_ image: MTIImage) -> Void
 /// The callback when transition completed
 public typealias MTTransitionCompletion = (_ finished: Bool) -> Void
 
-public class MTTransition: NSObject, MTIUnaryFilter {
+public class MTTransition: NSObject, MTIUnaryFilter, Encodable {
     
     public static let context = { () -> MTIContext? in
         let options = MTIContextOptions()
@@ -42,9 +42,9 @@ public class MTTransition: NSObject, MTIUnaryFilter {
     private var startTime: TimeInterval?
     
     // Subclasses must provide fragmentName
-    var fragmentName: String { return "" }
-    var parameters: [String: Any] { return [:] }
-    var samplers: [String: String] { return [:] }
+    public var fragmentName: String { return "" }
+    public var parameters: [String: Any] { return [:] }
+    public var samplers: [String: String] { return [:] }
     
     public var outputImage: MTIImage? {
         guard let input = inputImage, let dest = destImage else {
@@ -130,5 +130,19 @@ public class MTTransition: NSObject, MTIUnaryFilter {
     
     public func cancel() {
         self.completion?(false)
+    }
+
+    // MARK: Coding
+    enum CodingKeys : String, CodingKey {
+        case fragmentName = "fragmentName"
+        case parameters = "parameters"
+        case samplers = "samplers"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(fragmentName, forKey: .fragmentName)
+        try container.encode(parameters.mapValues(containerize(value:)), forKey: .parameters)
+        try container.encode(samplers, forKey: .samplers)
     }
 }
