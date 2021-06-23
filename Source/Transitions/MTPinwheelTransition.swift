@@ -9,7 +9,7 @@ public class MTPinwheelTransition: MTTransition {
     
     public var speed: Float = 2 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "PinwheelFragment"
     }
 

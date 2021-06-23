@@ -16,7 +16,7 @@ public class MTLuminanceMeltTransition: MTTransition {
     /// luminance threshold
     public var l_threshold: Float = 0.8 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "LuminanceMeltFragment"
     }
 

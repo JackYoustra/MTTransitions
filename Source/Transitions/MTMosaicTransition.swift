@@ -11,7 +11,7 @@ public class MTMosaicTransition: MTTransition {
 
     public var endx: Int = 2 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "MosaicFragment"
     }
 

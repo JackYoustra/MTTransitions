@@ -7,7 +7,7 @@
 
 public class MTFadeTransition: MTTransition {
     
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "FadeFragment"
     }
 }

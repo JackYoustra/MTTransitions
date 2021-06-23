@@ -9,7 +9,7 @@ public class MTColourDistanceTransition: MTTransition {
     
     public var power: Float = 5 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "ColourDistanceFragment"
     }
 

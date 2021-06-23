@@ -9,7 +9,7 @@ public class MTRadialTransition: MTTransition {
     
     public var smoothness: Float = 1 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "RadialFragment"
     }
 

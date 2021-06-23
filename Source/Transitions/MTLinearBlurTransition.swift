@@ -9,7 +9,7 @@ public class MTLinearBlurTransition: MTTransition {
     
     public var intensity: Float = 0.1 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "LinearBlurFragment"
     }
 

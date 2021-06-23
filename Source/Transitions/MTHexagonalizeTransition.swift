@@ -11,7 +11,7 @@ public class MTHexagonalizeTransition: MTTransition {
 
     public var horizontalHexagons: Float = 20 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "HexagonalizeFragment"
     }
 

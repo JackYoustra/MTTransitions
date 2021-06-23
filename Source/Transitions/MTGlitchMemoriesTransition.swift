@@ -7,7 +7,7 @@
 
 public class MTGlitchMemoriesTransition: MTTransition {
     
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "GlitchMemoriesFragment"
     }
 }

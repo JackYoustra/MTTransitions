@@ -15,7 +15,7 @@ public class MTBounceTransition: MTTransition {
 
     public var shadowHeight: Float = 0.075
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "BounceFragment"
     }
 

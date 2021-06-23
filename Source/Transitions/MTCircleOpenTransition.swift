@@ -11,7 +11,7 @@ public class MTCircleOpenTransition: MTTransition {
 
     public var opening: Bool = true 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "CircleOpenFragment"
     }
 

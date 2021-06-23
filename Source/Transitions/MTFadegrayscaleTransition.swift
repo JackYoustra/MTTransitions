@@ -9,7 +9,7 @@ public class MTFadegrayscaleTransition: MTTransition {
     
     public var intensity: Float = 0.3 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "FadegrayscaleFragment"
     }
 

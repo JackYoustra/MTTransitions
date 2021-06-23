@@ -15,7 +15,7 @@ public class MTUndulatingBurnOutTransition: MTTransition {
 
     public var center: CGPoint = CGPoint(x: 0.5, y: 0.5) 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "UndulatingBurnOutFragment"
     }
 

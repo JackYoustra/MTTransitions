@@ -15,7 +15,7 @@ public class MTCubeTransition: MTTransition {
 
     public var floating: Float = 3 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "CubeFragment"
     }
 

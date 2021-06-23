@@ -9,7 +9,7 @@ public class MTAngularTransition: MTTransition {
     
     public var startingAngle: Float = 90 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "AngularFragment"
     }
 

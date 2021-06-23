@@ -13,7 +13,7 @@ public class MTFlyeyeTransition: MTTransition {
 
     public var size: Float = 0.04 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "FlyeyeFragment"
     }
 

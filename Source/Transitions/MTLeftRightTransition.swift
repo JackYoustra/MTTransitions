@@ -9,7 +9,7 @@ import Foundation
 
 public class MTLeftRightTransition: MTTransition {
     
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "LeftRightFragment"
     }
 }

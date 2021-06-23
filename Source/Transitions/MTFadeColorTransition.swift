@@ -14,7 +14,7 @@ public class MTFadeColorTransition: MTTransition {
     /// if 0.0, there is no black phase, if 0.9, the black phase is very important
     public var colorPhase: Float = 0.4 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "FadeColorFragment"
     }
 

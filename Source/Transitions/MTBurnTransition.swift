@@ -11,7 +11,7 @@ public class MTBurnTransition: MTTransition {
     
     public var color: MTIColor = MTIColor(red: 0.9, green: 0.4, blue: 0.2, alpha: 1.0)
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "BurnFragment"
     }
 

@@ -9,7 +9,7 @@ public class MTPolarFunctionTransition: MTTransition {
     
     public var segments: Int = 5 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "PolarFunctionFragment"
     }
     

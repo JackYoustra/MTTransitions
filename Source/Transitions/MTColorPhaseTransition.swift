@@ -15,7 +15,7 @@ public class MTColorPhaseTransition: MTTransition {
 
     public var toStep: MTIColor = MTIColor(red: 0.6, green: 0.8, blue: 1.0, alpha: 1.0)
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "ColorPhaseFragment"
     }
 

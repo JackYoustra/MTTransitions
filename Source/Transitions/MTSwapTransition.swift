@@ -13,7 +13,7 @@ public class MTSwapTransition: MTTransition {
 
     public var perspective: Float = 0.2 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "SwapFragment"
     }
 

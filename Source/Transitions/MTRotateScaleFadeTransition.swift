@@ -17,7 +17,7 @@ public class MTRotateScaleFadeTransition: MTTransition {
 
     public var backColor: MTIColor = MTIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.0)
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "RotateScaleFadeFragment"
     }
 

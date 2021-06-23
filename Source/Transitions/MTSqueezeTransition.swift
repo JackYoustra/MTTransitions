@@ -9,7 +9,7 @@ public class MTSqueezeTransition: MTTransition {
     
     public var colorSeparation: Float = 0.04 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "SqueezeFragment"
     }
 

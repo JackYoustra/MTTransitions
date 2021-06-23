@@ -43,8 +43,8 @@ public class MTTransition: NSObject, MTIUnaryFilter, Encodable {
     
     // Subclasses must provide fragmentName
     public var fragmentName: String { return "" }
-    public var parameters: [String: Any] { return [:] }
-    public var samplers: [String: String] { return [:] }
+    var parameters: [String: Any] { return [:] }
+    var samplers: [String: String] { return [:] }
     
     public var outputImage: MTIImage? {
         guard let input = inputImage, let dest = destImage else {

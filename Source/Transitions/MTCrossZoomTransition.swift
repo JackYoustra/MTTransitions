@@ -9,7 +9,7 @@ public class MTCrossZoomTransition: MTTransition {
     
     public var strength: Float = 0.4 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "CrossZoomFragment"
     }
 

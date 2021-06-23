@@ -15,7 +15,7 @@ public class MTCircleTransition: MTTransition {
 
     public var backColor: MTIColor = MTIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1.0)
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "CircleFragment"
     }
 

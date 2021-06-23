@@ -13,7 +13,7 @@ public class MTRandomSquaresTransition: MTTransition {
 
     public var size: CGSize = CGSize(width: 10, height: 10) 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "RandomSquaresFragment"
     }
 

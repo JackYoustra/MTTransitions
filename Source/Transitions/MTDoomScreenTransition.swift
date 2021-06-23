@@ -22,7 +22,7 @@ public class MTDoomScreenTransition: MTTransition {
     // Multiplier for speed ratio. 0 = no variation when going down, higher = some elements go much faster
     public var amplitude: Float = 2 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "DoomScreenFragment"
     }
 

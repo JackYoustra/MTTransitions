@@ -7,7 +7,7 @@
 
 public class MTCannabisleafTransition: MTTransition {
     
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "CannabisleafFragment"
     }
 }

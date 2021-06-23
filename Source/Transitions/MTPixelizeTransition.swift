@@ -17,7 +17,7 @@ public class MTPixelizeTransition: MTTransition {
     // zero disable the stepping
     public var steps: Int = 50 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "PixelizeFragment"
     }
 

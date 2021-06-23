@@ -11,7 +11,7 @@ public class MTTVStaticTransition: MTTransition {
     
     public var offset: Float = 0.02
     
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "TVStaticFragment"
     }
     

@@ -7,7 +7,7 @@
 
 public class MTMultiplyBlendTransition: MTTransition {
     
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "MultiplyBlendFragment"
     }
 }

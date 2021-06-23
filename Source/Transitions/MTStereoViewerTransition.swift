@@ -13,7 +13,7 @@ public class MTStereoViewerTransition: MTTransition {
     // How much to zoom (out) for the effect ~ 0.5 - 1.0
     public var zoom: Float = 0.88 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "StereoViewerFragment"
     }
 

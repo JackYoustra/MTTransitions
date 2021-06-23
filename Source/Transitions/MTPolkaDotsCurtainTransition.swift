@@ -13,7 +13,7 @@ public class MTPolkaDotsCurtainTransition: MTTransition {
 
     public var center: CGPoint = CGPoint(x: 0, y: 0) 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "PolkaDotsCurtainFragment"
     }
 

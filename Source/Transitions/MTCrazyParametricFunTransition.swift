@@ -15,7 +15,7 @@ public class MTCrazyParametricFunTransition: MTTransition {
 
     public var amplitude: Float = 120 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "CrazyParametricFunFragment"
     }
 

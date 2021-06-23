@@ -7,7 +7,7 @@
 
 public class MTZoomInCirclesTransition: MTTransition {
     
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "ZoomInCirclesFragment"
     }
 }

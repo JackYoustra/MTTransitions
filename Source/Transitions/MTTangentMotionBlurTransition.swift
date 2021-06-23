@@ -9,7 +9,7 @@ import Foundation
 
 public class MTTangentMotionBlurTransition: MTTransition {
     
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "TangentMotionBlurFragment"
     }
 }

@@ -11,7 +11,7 @@ public class MTDreamyZoomTransition: MTTransition {
 
     public var scale: Float = 1.2 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "DreamyZoomFragment"
     }
 

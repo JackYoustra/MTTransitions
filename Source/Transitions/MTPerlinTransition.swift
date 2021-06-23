@@ -13,7 +13,7 @@ public class MTPerlinTransition: MTTransition {
 
     public var smoothness: Float = 0.01 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "PerlinFragment"
     }
 

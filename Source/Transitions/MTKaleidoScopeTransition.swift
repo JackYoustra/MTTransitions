@@ -13,7 +13,7 @@ public class MTKaleidoScopeTransition: MTTransition {
 
     public var power: Float = 1.5 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "KaleidoScopeFragment"
     }
 

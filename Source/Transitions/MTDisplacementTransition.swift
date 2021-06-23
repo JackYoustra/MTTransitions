@@ -10,7 +10,7 @@ public class MTDisplacementTransition: MTTransition {
     
     public var strength: Float = 0.5 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "DisplacementFragment"
     }
 

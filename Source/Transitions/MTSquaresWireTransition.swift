@@ -15,7 +15,7 @@ public class MTSquaresWireTransition: MTTransition {
 
     public var smoothness: Float = 1.6 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "SquaresWireFragment"
     }
 

@@ -11,7 +11,7 @@ public class MTRippleTransition: MTTransition {
 
     public var amplitude: Float = 100 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "RippleFragment"
     }
 

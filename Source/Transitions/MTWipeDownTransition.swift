@@ -7,7 +7,7 @@
 
 public class MTWipeDownTransition: MTTransition {
     
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "WipeDownFragment"
     }
 }

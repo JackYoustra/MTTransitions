@@ -14,7 +14,7 @@ public class MTCrossHatchTransition: MTTransition {
 
     public var fadeEdge: Float = 0.1 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "CrossHatchFragment"
     }
 

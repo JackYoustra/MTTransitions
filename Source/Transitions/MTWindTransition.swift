@@ -9,7 +9,7 @@ public class MTWindTransition: MTTransition {
     
     public var size: Float = 0.2 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "WindFragment"
     }
 

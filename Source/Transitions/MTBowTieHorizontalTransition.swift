@@ -7,7 +7,7 @@
 
 public class MTBowTieHorizontalTransition: MTTransition {
     
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "BowTieHorizontalFragment"
     }
 }

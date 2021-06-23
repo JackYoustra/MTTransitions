@@ -7,7 +7,7 @@
 
 public class MTHeartTransition: MTTransition {
     
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "HeartFragment"
     }
 }

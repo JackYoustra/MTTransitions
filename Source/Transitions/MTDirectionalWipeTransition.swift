@@ -13,7 +13,7 @@ public class MTDirectionalWipeTransition: MTTransition {
 
     public var smoothness: Float = 0.5 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "DirectionalWipeFragment"
     }
 

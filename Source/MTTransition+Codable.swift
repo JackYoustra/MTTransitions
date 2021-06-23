@@ -138,7 +138,7 @@ fileprivate extension MTIVector {
 
 public class MTDecodedTransition : MTTransition, Decodable {
     var _fragmentName: String
-    override var fragmentName: String {
+    public override var fragmentName: String {
         _fragmentName
     }
 

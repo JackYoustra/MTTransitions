@@ -11,7 +11,7 @@ public class MTWaterDropTransition: MTTransition {
 
     public var amplitude: Float = 30 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "WaterDropFragment"
     }
 

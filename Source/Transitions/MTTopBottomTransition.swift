@@ -8,7 +8,7 @@
 import Foundation
 
 public class MTTopBottomTransition: MTTransition {
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "TopBottomFragment"
     }
 }

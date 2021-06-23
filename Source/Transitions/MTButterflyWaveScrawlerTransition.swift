@@ -13,7 +13,7 @@ public class MTButterflyWaveScrawlerTransition: MTTransition {
 
     public var waves: Float = 30 
 
-    override var fragmentName: String {
+    public override var fragmentName: String {
         return "ButterflyWaveScrawlerFragment"
     }
 
