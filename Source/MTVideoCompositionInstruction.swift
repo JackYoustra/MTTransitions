@@ -37,7 +37,7 @@ public class MTVideoCompositionInstruction: NSObject, AVVideoCompositionInstruct
     public var ignoreInput: Bool = false
 
     /// Effect applied to video transition
-    public var effect: MTTransition.Effect = .angular
+    public var transition: MTTransition = MTTransition.Effect.angular.transition
     
     public var timeRange: CMTimeRange {
         get { return self.overrideTimeRange }

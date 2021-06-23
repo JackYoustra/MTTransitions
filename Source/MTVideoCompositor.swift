@@ -41,10 +41,10 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
         }
     }
     
-    private lazy var renderer = MTVideoTransitionRenderer(effect: effect)
+    private lazy var renderer = MTVideoTransitionRenderer(transition: transition)
     
     /// Effect apply to video transition
-    var effect: MTTransition.Effect { return .angular }
+    var transition: MTTransition { return MTTransition.Effect.angular.transition }
     
     override init() {
         super.init()
@@ -72,8 +72,8 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
                         }
                         // Change effect if current instruction is non-passthrough
                         // and has a different effect
-                        if currentInstruction.requiredSourceTrackIDs?.count == 2, self.renderer.effect != currentInstruction.effect {
-                            self.renderer = MTVideoTransitionRenderer(effect: currentInstruction.effect)
+                        if currentInstruction.requiredSourceTrackIDs?.count == 2, self.renderer.transition != currentInstruction.transition {
+                            self.renderer = MTVideoTransitionRenderer(transition: currentInstruction.transition)
                         }
 
                         guard let resultPixels = self.newRenderedPixelBufferForRequest(asyncVideoCompositionRequest) else {

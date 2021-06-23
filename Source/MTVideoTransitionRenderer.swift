@@ -10,14 +10,11 @@ import MetalPetal
 import VideoToolbox
 
 public class MTVideoTransitionRenderer: NSObject {
- 
-    let effect: MTTransition.Effect
+
+    let transition: MTTransition
     
-    private let transition: MTTransition
-    
-    public init(effect: MTTransition.Effect) {
-        self.effect = effect
-        self.transition = effect.transition
+    public init(transition: MTTransition) {
+        self.transition = transition
         super.init()
     }
 

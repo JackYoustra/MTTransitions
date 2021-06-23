@@ -290,7 +290,7 @@ public class MTVideoTransition: NSObject {
                     ]
                     let timeRange = transitionTimeRanges[index]
                     let videoInstruction = MTVideoCompositionInstruction(theSourceTrackIDs: trackIDs, forTimeRange: timeRange)
-                    videoInstruction.effect = effects[index]
+                    videoInstruction.transition = effects[index].transition
                     // First track -> Foreground track while compositing.
                     videoInstruction.foregroundTrackID = compositionVideoTracks[alternatingIndex].trackID
                     // Second track -> Background track while compositing.
