@@ -80,7 +80,7 @@ class MultipleVideoTransitionsViewController: UIViewController {
     private func makeTransition() {
         let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 1000)
         let effects: [MTTransition.Effect] = [.squaresWire, .circleOpen, .burn]
-        try? videoTransition.merge(clips, effects: effects, transitionDuration: duration) { [weak self] result in
+        try? videoTransition.merge(clips, effects: effects.map(\.transition), transitionDuration: duration) { [weak self] result in
             guard let self = self else { return }
             let playerItem = AVPlayerItem(asset: result.composition)
             playerItem.videoComposition = result.videoComposition

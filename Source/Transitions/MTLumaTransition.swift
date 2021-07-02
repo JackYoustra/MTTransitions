@@ -7,6 +7,8 @@
 
 // TODO
 public class MTLumaTransition: MTTransition {
+
+    public var luma: String = "spiral-1.png"
     
     public override var fragmentName: String {
         return "LumaFragment"
@@ -14,7 +16,7 @@ public class MTLumaTransition: MTTransition {
     
     override var samplers: [String : String] {
         return [
-            "luma": "spiral-1.png"
+            "luma": luma
         ]
     }
 }

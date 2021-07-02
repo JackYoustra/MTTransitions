@@ -135,27 +135,3 @@ fileprivate extension MTIVector {
         return creator(typed.baseAddress!, UInt(typed.count))
     }
 }
-
-public class MTDecodedTransition : MTTransition, Decodable {
-    var _fragmentName: String
-    public override var fragmentName: String {
-        _fragmentName
-    }
-
-    var _samplers: [String : String]
-    override var samplers: [String : String] {
-        _samplers
-    }
-
-    var _parameters: [String : Any]
-    override var parameters: [String : Any] {
-        _parameters
-    }
-
-    required public init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        _fragmentName = try values.decode(String.self, forKey: .fragmentName)
-        _samplers = try values.decode([String : String].self, forKey: .samplers)
-        _parameters = try values.decode([String : SupportedTypes].self, forKey: .parameters).mapValues { $0.erased() }
-    }
-}

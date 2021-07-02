@@ -22,7 +22,7 @@ public class MTTransition: NSObject, MTIUnaryFilter, Encodable {
         return try? MTIContext(device: MTLCreateSystemDefaultDevice()!, options: options)
     }()
     
-    public override init() { }
+    public required override init() { }
 
     public var inputImage: MTIImage?
 

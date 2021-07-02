@@ -8,7 +8,9 @@
 // TODO: displacementMap should be parameter
 public class MTDisplacementTransition: MTTransition {
     
-    public var strength: Float = 0.5 
+    public var strength: Float = 0.5
+
+    public var displacementMap: String = "displacementMap.jpg"
 
     public override var fragmentName: String {
         return "DisplacementFragment"
@@ -22,7 +24,7 @@ public class MTDisplacementTransition: MTTransition {
     
     override var samplers: [String : String] {
         return [
-            "displacementMap": "displacementMap.jpg"
+            "displacementMap": displacementMap,
         ]
     }
 }

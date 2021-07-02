@@ -36,7 +36,7 @@ public class MTVideoTransition: NSObject {
     private var clips: [AVAsset] = []
     
     /// The effects of transitions. The count of effects should be clips.count - 1
-    private var effects: [MTTransition.Effect] = []
+    private var effects: [MTTransition] = []
     
     /// The available time ranges for the movie clips.
     private var clipTimeRanges: [CMTimeRange] = []
@@ -55,7 +55,7 @@ public class MTVideoTransition: NSObject {
     ///   - completion: Completion callback.
     /// - Throws: An error occurs.
     public func merge(_ assets: [AVAsset],
-                      effect: MTTransition.Effect,
+                      effect: MTTransition,
                       transitionDuration: CMTime,
                       completion: @escaping MTVideoTransitionCompletion) throws {
         let effects = Array(repeating: effect, count: assets.count - 1)
@@ -70,7 +70,7 @@ public class MTVideoTransition: NSObject {
     ///   - completion: Completion callback.
     /// - Throws: An error occurs.
     public func merge(_ assets: [AVAsset],
-                      effects: [MTTransition.Effect],
+                      effects: [MTTransition],
                       transitionDuration: CMTime,
                       completion: @escaping MTVideoTransitionCompletion) throws {
         
@@ -290,7 +290,7 @@ public class MTVideoTransition: NSObject {
                     ]
                     let timeRange = transitionTimeRanges[index]
                     let videoInstruction = MTVideoCompositionInstruction(theSourceTrackIDs: trackIDs, forTimeRange: timeRange)
-                    videoInstruction.transition = effects[index].transition
+                    videoInstruction.transition = effects[index]
                     // First track -> Foreground track while compositing.
                     videoInstruction.foregroundTrackID = compositionVideoTracks[alternatingIndex].trackID
                     // Second track -> Background track while compositing.
