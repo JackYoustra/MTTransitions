@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import MetalPetal
 
 public class MTVideoCompositor: NSObject, AVVideoCompositing {
     
@@ -72,7 +73,8 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
                         }
                         // Change effect if current instruction is non-passthrough
                         // and has a different effect
-                        if currentInstruction.requiredSourceTrackIDs?.count == 2, self.renderer.transition != currentInstruction.transition {
+                        if currentInstruction.isTransition,
+                           self.renderer.transition != currentInstruction.transition {
                             self.renderer = MTVideoTransitionRenderer(transition: currentInstruction.transition)
                         }
 
@@ -120,15 +122,29 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
         }
 
         // Check if we should run a mitigation algorithm
-        if let skipBuffer = currentInstruction.vendBufferForSkippedStep?(request.compositionTime) {
+        if let skipBuffer = currentInstruction.vendBufferForSkippedStep?(currentInstruction, request.compositionTime) {
             return skipBuffer
         }
 
         let foregroundSourceBufferMaybe = request.sourceFrame(byTrackID: currentInstruction.foregroundTrackID)
 
+        let layers = currentInstruction.layeredForegroundTrackIDs.compactMap { trackID -> MultilayerCompositingFilter.Layer? in
+            guard let source = request.sourceFrame(byTrackID: trackID) else { return nil }
+            return MultilayerCompositingFilter.Layer(content: MTIImage(cvPixelBuffer: source, alphaType: .alphaIsOne))
+        }
+        if layers.count > 0 {
+            let layerer = currentInstruction.foregroundLayerer
+            currentInstruction.foregroundLayerer = {
+                let input = layerer?($0, $1) ?? $0
+                let filter = MultilayerCompositingFilter()
+                filter.inputBackgroundImage = input
+                filter.layers = layers
+                return filter.outputImage ?? input
+            }
+        }
+
         // Check if it's a passthrough-plus-transform or a transition
-        if let IDs = currentInstruction.requiredSourceTrackIDs,
-           IDs.count == 1 {
+        if !currentInstruction.isTransition {
             // passthrough
 
             let foregroundSourceBuffer, dstPixels: CVPixelBuffer

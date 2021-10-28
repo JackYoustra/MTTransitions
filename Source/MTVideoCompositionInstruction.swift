@@ -13,6 +13,9 @@ public class MTVideoCompositionInstruction: NSObject, AVVideoCompositionInstruct
     
     /// ID used to identify the foreground frame.
     public var foregroundTrackID: CMPersistentTrackID = kCMPersistentTrackID_Invalid
+
+    /// ID used to identify whether other tracks should be layered on top of the foreground track
+    public var layeredForegroundTrackIDs: [CMPersistentTrackID] = []
     
     /// ID used to identify the background frame.
     public var backgroundTrackID: CMPersistentTrackID = kCMPersistentTrackID_Invalid
@@ -28,7 +31,7 @@ public class MTVideoCompositionInstruction: NSObject, AVVideoCompositionInstruct
 
     /// There's a bug on AVPlayerItem that has seeking occasionally yield the wrong time.
     /// This can be mitigated by returning a cached pixel buffer to use on dead frames during these times (usually the beginning of a transition track)
-    public var vendBufferForSkippedStep: ((CMTime) -> (CVPixelBuffer?))? = nil
+    public var vendBufferForSkippedStep: ((MTVideoCompositionInstruction, CMTime) -> (CVPixelBuffer?))? = nil
 
     /// Helper updater for the vendBufferForSkippedStep function
     public var newBufferRendered: ((CVPixelBuffer) -> ())? = nil
@@ -62,6 +65,11 @@ public class MTVideoCompositionInstruction: NSObject, AVVideoCompositionInstruct
     public var passthroughTrackID: CMPersistentTrackID {
         get { return self.overridePassthroughTrackID }
         set { self.overridePassthroughTrackID = newValue }
+    }
+
+    public var isTransition: Bool {
+        guard let IDs = requiredSourceTrackIDs else { return true }
+        return IDs.count - layeredForegroundTrackIDs.count > 1
     }
     
     /// The timeRange during which instructions will be effective.
