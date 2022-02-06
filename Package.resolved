@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "MetalPetal",
+        "repositoryURL": "https://github.com/MetalPetal/MetalPetal",
+        "state": {
+          "branch": null,
+          "revision": "a1a621776a01abb35841bd915adbff3d1280d2db",
+          "version": "1.24.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
