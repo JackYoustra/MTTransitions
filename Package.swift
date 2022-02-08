@@ -32,12 +32,6 @@ let package = Package(
             path: "Source",
             resources: [
                 .process("Assets.bundle")
-            ],
-            cSettings: [
-                .headerSearchPath("../MetalPetal/Sources/MetalPetalObjectiveC/include")
-            ],
-            cxxSettings: [
-                .headerSearchPath("../MetalPetal/Sources/MetalPetalObjectiveC/include")
             ]
         ),
     ]

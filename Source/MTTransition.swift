@@ -69,13 +69,13 @@ public class MTTransition: NSObject, MTIUnaryFilter, Encodable {
     
     var kernel: MTIRenderPipelineKernel {
         let vertexDescriptor = MTIFunctionDescriptor(name: MTIFilterPassthroughVertexFunctionName)
-        let fragmentDescriptor = MTIFunctionDescriptor(name: fragmentName, libraryURL: MTIDefaultLibraryURLForBundle(Bundle(for: MTTransition.self)))
+        let fragmentDescriptor = MTIFunctionDescriptor(name: fragmentName, libraryURL: MTIDefaultLibraryURLForBundle(Bundle.module))
         let kernel = MTIRenderPipelineKernel(vertexFunctionDescriptor: vertexDescriptor, fragmentFunctionDescriptor: fragmentDescriptor)
         return kernel
     }
     
     private func samplerImage(name: String) -> MTIImage? {
-        let bundle = Bundle(for: MTTransition.self)
+        let bundle = Bundle.module
         guard let bundleUrl = bundle.url(forResource: "Assets", withExtension: "bundle"),
             let resourceBundle = Bundle(url: bundleUrl) else {
             return nil
