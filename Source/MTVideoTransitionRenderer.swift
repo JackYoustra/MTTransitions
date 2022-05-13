@@ -66,7 +66,7 @@ public class MTVideoTransitionRenderer: NSObject {
 
         transition.progress = tween
 
-        if var output = transition.outputImage?.oriented(.downMirrored) {
+        if var output = transition.outputImage {
             output = postTransform?(output) ?? output
             try? MTTransition.context?.render(output, to: destinationPixelBuffer)
         }
