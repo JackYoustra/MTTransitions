@@ -61,30 +61,28 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
     }
     
     public func startRequest(_ asyncVideoCompositionRequest: AVAsynchronousVideoCompositionRequest) {
-        autoreleasepool {
-            renderingQueue.async {
-                autoreleasepool {
-                    // Check if all pending requests have been cancelled.
-                    if self.shouldCancelAllRequests {
-                        asyncVideoCompositionRequest.finishCancelledRequest()
-                    } else {
-                        guard let currentInstruction = asyncVideoCompositionRequest.videoCompositionInstruction as? MTVideoCompositionInstruction else {
-                            return
-                        }
-                        // Change effect if current instruction is non-passthrough
-                        // and has a different effect
-                        if currentInstruction.isTransition,
-                           self.renderer.transition != currentInstruction.transition {
-                            self.renderer = MTVideoTransitionRenderer(transition: currentInstruction.transition)
-                        }
-
-                        guard let resultPixels = self.newRenderedPixelBufferForRequest(asyncVideoCompositionRequest) else {
-                            asyncVideoCompositionRequest.finish(with: PixelBufferRequestError.newRenderedPixelBufferForRequestFailure)
-                            return
-                        }
-                        // The resulting pixelbuffer from Metal renderer is passed along to the request.
-                        asyncVideoCompositionRequest.finish(withComposedVideoFrame: resultPixels)
+        renderingQueue.async {
+            autoreleasepool {
+                // Check if all pending requests have been cancelled.
+                if self.shouldCancelAllRequests {
+                    asyncVideoCompositionRequest.finishCancelledRequest()
+                } else {
+                    guard let currentInstruction = asyncVideoCompositionRequest.videoCompositionInstruction as? MTVideoCompositionInstruction else {
+                        return
                     }
+                    // Change effect if current instruction is non-passthrough
+                    // and has a different effect
+                    if currentInstruction.isTransition,
+                        self.renderer.transition != currentInstruction.transition {
+                        self.renderer = MTVideoTransitionRenderer(transition: currentInstruction.transition)
+                    }
+
+                    guard let resultPixels = self.newRenderedPixelBufferForRequest(asyncVideoCompositionRequest) else {
+                        asyncVideoCompositionRequest.finish(with: PixelBufferRequestError.newRenderedPixelBufferForRequestFailure)
+                        return
+                    }
+                    // The resulting pixelbuffer from Metal renderer is passed along to the request.
+                    asyncVideoCompositionRequest.finish(withComposedVideoFrame: resultPixels)
                 }
             }
         }
@@ -132,15 +130,19 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
             guard let source = request.sourceFrame(byTrackID: trackID) else { return nil }
             return MultilayerCompositingFilter.Layer(content: MTIImage(cvPixelBuffer: source, alphaType: .alphaIsOne))
         }
+
+        let foregroundLayerer: ((MTIImage, Float) -> MTIImage)?
+
         if layers.count > 0 {
-            let layerer = currentInstruction.foregroundLayerer
-            currentInstruction.foregroundLayerer = {
-                let input = layerer?($0, $1) ?? $0
+            foregroundLayerer = {
+                let input = currentInstruction.foregroundLayerer?($0, $1) ?? $0
                 let filter = MultilayerCompositingFilter()
                 filter.inputBackgroundImage = input
                 filter.layers = layers
                 return filter.outputImage ?? input
             }
+        } else {
+            foregroundLayerer = currentInstruction.foregroundLayerer
         }
 
         // Check if it's a passthrough-plus-transform or a transition
@@ -174,7 +176,7 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
 
             renderer.renderPixelBuffer(dstPixels,
                                        usingForegroundSourceBuffer:foregroundSourceBuffer,
-                                       withTransform: currentInstruction.foregroundLayerer, forTweenFactor: Float(tweenFactor))
+                                       withTransform: foregroundLayerer, forTweenFactor: Float(tweenFactor))
             currentInstruction.newBufferRendered?(dstPixels)
             return dstPixels
         } else {
@@ -198,7 +200,7 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
 
             renderer.renderPixelBuffer(dstPixels,
                                        usingForegroundSourceBuffer:foregroundSourceBufferMaybe,
-                                       withTransform: currentInstruction.foregroundLayerer,
+                                       withTransform: foregroundLayerer,
                                        andBackgroundSourceBuffer:backgroundSourceBuffer,
                                        withTransform: currentInstruction.backgroundLayerer,
                                        andPostTransform: currentInstruction.postTransitionTransform,
