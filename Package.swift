@@ -18,7 +18,7 @@ let package = Package(
        .package(
             name: "MetalPetal",
             url: "https://github.com/MetalPetal/MetalPetal",
-            from: "1.24.2"
+            from: "1.25.2"
        )
     ],
     targets: [
