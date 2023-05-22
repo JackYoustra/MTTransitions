@@ -8,8 +8,8 @@
 using namespace metalpetal;
 
 fragment float4 DirectionalFragment(VertexOut vertexIn [[ stage_in ]],
-                                    texture2d<float, access::sample> fromTexture [[ texture(0) ]],
-                                    texture2d<float, access::sample> toTexture [[ texture(1) ]],
+                                    texture2d<float, access::sample> toTexture [[ texture(0) ]],
+                                    texture2d<float, access::sample> fromTexture [[ texture(1) ]],
                                     constant float2 & direction [[ buffer(0) ]],
                                     constant float & ratio [[ buffer(1) ]],
                                     constant float & progress [[ buffer(2) ]],
