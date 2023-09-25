@@ -12,7 +12,10 @@ public class MTVideoCompositor: NSObject, AVVideoCompositing {
     
     /// Returns the pixel buffer attributes required by the video compositor for new buffers created for processing.
     public var requiredPixelBufferAttributesForRenderContext: [String : Any] =
-    [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
+    [
+        kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA),
+        kCVPixelBufferIOSurfacePropertiesKey as String: [:],
+    ]
     
     /// The pixel buffer attributes of pixel buffers that will be vended by the adaptor’s CVPixelBufferPool.
     public var sourcePixelBufferAttributes: [String : Any]? =
